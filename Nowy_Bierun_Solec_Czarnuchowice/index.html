@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 93%;
+            padding: 0;
+            margin: 0;
+        }
+	.dupa {
+      	    background-color: white;
+            height: 100%;
+            width: 100%; 
+	    position: absolute;  
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+       	<div class="dupa">
+		<span style="display:inline-block; vertical-align: top; font-family: Cambria; font-weight: bold;">&nbsp;Okolice Paciorkowców w 1944 r.</span><span style="display:inline-block; vertical-align: top; font-family: Cambria;">&nbsp;(oprac. Paweł Swoboda na podstawie zdjęć z kolekcji NCAP, wyłącznie do celów niekomercyjnych)</span><br/>
+		<span style="display:inline-block; vertical-align: top; font-family: Cambria;">&nbsp;Ustaw suwakiem przezroczystość zdjęcia:&nbsp;&nbsp;</span><span style="display:inline-block; vertical-align: top; font-family: Cambria;">0%&nbsp;</span><input id="slide" type="range" min="0" max="1" step="0.05" value="1" onchange="updateOpacity(this.value)"><span style="display:inline-block; vertical-align: top; font-family: Cambria;">&nbsp;100%</span>
+	<div id="map">
+        </div></div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet-src.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 28,
+	    subdomains:['mt0','mt1','mt2','mt3']
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        var img_Nowy_Bierun_Solec_Czarnuchowice_1944_0 = 'data/Nowy_Bierun_Solec_Czarnuchowice_1944_0.png';
+        var img_bounds_Nowy_Bierun_Solec_Czarnuchowice_1944_0 = [[50.0679563931,19.1692203996],[50.0879238858,19.1963503071]];
+        var overlay_Nowy_Bierun_Solec_Czarnuchowice_1944_0 = new L.imageOverlay(img_Nowy_Bierun_Solec_Czarnuchowice_1944_0, img_bounds_Nowy_Bierun_Solec_Czarnuchowice_1944_0);
+		function updateOpacity(value) {
+	        overlay_Nowy_Bierun_Solec_Czarnuchowice_1944_0.setOpacity(value);
+		}
+        bounds_group.addLayer(overlay_Nowy_Bierun_Solec_Czarnuchowice_1944_0);
+        map.addLayer(overlay_Nowy_Bierun_Solec_Czarnuchowice_1944_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{"Nowy_Bierun_Solec_Czarnuchowice_1944": overlay_Nowy_Bierun_Solec_Czarnuchowice_1944_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
