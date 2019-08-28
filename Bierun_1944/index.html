@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+      	    background-color: grey
+        }
+	.dupa {
+      	    background-color: grey;
+            height: 88%;
+            width: 100%; 
+	    position: absolute;  
+	    font-size: 18px;
+	    font-family: Calibri;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+       	<div class="dupa">
+		<span style="display:inline-block; vertical-align: top; font-family: Calibri; font-weight: bold; font-size: 26px"><font color="white">&nbsp;&nbsp;Bieruń na zdjęciach lotniczych z 1944 r.</font></span><span style="display:inline-block; float: right; vertical-align: top; font-family: Calibri; font-size: 10px;"><font color="lightgray">[oprac. Paweł Swoboda na podstawie zdjęć z kolekcji NCAP, wyłącznie do celów niekomercyjnych]&nbsp;</font></span><br/>
+		<span style="display:inline-block; float: left; padding: 10px; vertical-align: middle; font-family: Calibri;"><font color="white">&nbsp;Ustaw przezroczystość zdjęć:&nbsp;&nbsp;0%&nbsp; <input id="slide" style="vertical-align: middle;" type="range" min="0" max="1" step="0.05" value="1" onchange="updateOpacity(this.value)">&nbsp;100%</span>
+<span style="display:inline-block; float: right; padding: 10px; vertical-align: middle; font-family: Calibri;">Najedź na ikonę poniżej, by wyłączyć wybrane warstwy</font></span>
+	<div id="map">
+        </div></div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/gminy_19.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[50.06,19.05280844664674],[50.10514046241792,19.213905338066784]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 28,
+	    subdomains:['mt0','mt1','mt2','mt3']
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        var img_331_Babice_Czarnuchowice_nowy_1 = 'data/331_Babice_Czarnuchowice_nowy_1.png';
+        var img_bounds_331_Babice_Czarnuchowice_nowy_1 = [[50.051888944419794,19.19820677290709],[50.072447140740664,19.22536400562588]];
+        var layer_331_Babice_Czarnuchowice_nowy_1 = new L.imageOverlay(img_331_Babice_Czarnuchowice_nowy_1, img_bounds_331_Babice_Czarnuchowice_nowy_1);
+        bounds_group.addLayer(layer_331_Babice_Czarnuchowice_nowy_1);
+        map.addLayer(layer_331_Babice_Czarnuchowice_nowy_1);
+        var img_327_Nowy_Bierun_Chropan_Babice_nowy_2 = 'data/327_Nowy_Bierun_Chropan_Babice_nowy_2.png';
+        var img_bounds_327_Nowy_Bierun_Chropan_Babice_nowy_2 = [[50.05232506739436,19.174511261382705],[50.07270837773128,19.201507720874957]];
+        var layer_327_Nowy_Bierun_Chropan_Babice_nowy_2 = new L.imageOverlay(img_327_Nowy_Bierun_Chropan_Babice_nowy_2, img_bounds_327_Nowy_Bierun_Chropan_Babice_nowy_2);
+        bounds_group.addLayer(layer_327_Nowy_Bierun_Chropan_Babice_nowy_2);
+        map.addLayer(layer_327_Nowy_Bierun_Chropan_Babice_nowy_2);
+        var img_324_Bijasowice_nowy_3 = 'data/324_Bijasowice_nowy_3.png';
+        var img_bounds_324_Bijasowice_nowy_3 = [[50.05538273771674,19.153320072291056],[50.07540749479875,19.17989444956052]];
+        var layer_324_Bijasowice_nowy_3 = new L.imageOverlay(img_324_Bijasowice_nowy_3, img_bounds_324_Bijasowice_nowy_3);
+        bounds_group.addLayer(layer_324_Bijasowice_nowy_3);
+        map.addLayer(layer_324_Bijasowice_nowy_3);
+        var img_321_Kopan_nowy_4 = 'data/321_Kopan_nowy_4.png';
+        var img_bounds_321_Kopan_nowy_4 = [[50.05697579051839,19.131976695602148],[50.0773521280272,19.1583696846242]];
+        var layer_321_Kopan_nowy_4 = new L.imageOverlay(img_321_Kopan_nowy_4, img_bounds_321_Kopan_nowy_4);
+        bounds_group.addLayer(layer_321_Kopan_nowy_4);
+        map.addLayer(layer_321_Kopan_nowy_4);
+        var img_318_Bieru_Jajosty_nowy_5 = 'data/318_Bieru_Jajosty_nowy_5.png';
+        var img_bounds_318_Bieru_Jajosty_nowy_5 = [[50.057025320336656,19.110053879915665],[50.07708782605239,19.13667157745195]];
+        var layer_318_Bieru_Jajosty_nowy_5 = new L.imageOverlay(img_318_Bieru_Jajosty_nowy_5, img_bounds_318_Bieru_Jajosty_nowy_5);
+        bounds_group.addLayer(layer_318_Bieru_Jajosty_nowy_5);
+        map.addLayer(layer_318_Bieru_Jajosty_nowy_5);
+        var img_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6 = 'data/316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6.png';
+        var img_bounds_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6 = [[50.058015817760484,19.09520584084225],[50.07855971516152,19.121911907977132]];
+        var layer_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6 = new L.imageOverlay(img_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6, img_bounds_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6);
+        bounds_group.addLayer(layer_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6);
+        map.addLayer(layer_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6);
+        var img_312_Bojszowy_zach_Erg_nowy_7 = 'data/312_Bojszowy_zach_Erg_nowy_7.png';
+        var img_bounds_312_Bojszowy_zach_Erg_nowy_7 = [[50.05784708129518,19.07028873453565],[50.0780497337945,19.096785846033512]];
+        var layer_312_Bojszowy_zach_Erg_nowy_7 = new L.imageOverlay(img_312_Bojszowy_zach_Erg_nowy_7, img_bounds_312_Bojszowy_zach_Erg_nowy_7);
+        bounds_group.addLayer(layer_312_Bojszowy_zach_Erg_nowy_7);
+        map.addLayer(layer_312_Bojszowy_zach_Erg_nowy_7);
+        var img_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8 = 'data/310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8.png';
+        var img_bounds_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8 = [[50.05918815927641,19.05591032213825],[50.07961500493199,19.08320329978974]];
+        var layer_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8 = new L.imageOverlay(img_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8, img_bounds_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8);
+        bounds_group.addLayer(layer_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8);
+        map.addLayer(layer_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8);
+        var img_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9 = 'data/131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9.png';
+        var img_bounds_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9 = [[50.06517805283764,19.214074429577536],[50.08565773126642,19.24175165426883]];
+        var layer_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9 = new L.imageOverlay(img_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9, img_bounds_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9);
+        bounds_group.addLayer(layer_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9);
+        map.addLayer(layer_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9);
+        var img_129_Czarnuchowice_Przemsza_Gorzow_nowy_10 = 'data/129_Czarnuchowice_Przemsza_Gorzow_nowy_10.png';
+        var img_bounds_129_Czarnuchowice_Przemsza_Gorzow_nowy_10 = [[50.0672151319204,19.200697655397715],[50.08740326502304,19.22723699132748]];
+        var layer_129_Czarnuchowice_Przemsza_Gorzow_nowy_10 = new L.imageOverlay(img_129_Czarnuchowice_Przemsza_Gorzow_nowy_10, img_bounds_129_Czarnuchowice_Przemsza_Gorzow_nowy_10);
+        bounds_group.addLayer(layer_129_Czarnuchowice_Przemsza_Gorzow_nowy_10);
+        map.addLayer(layer_129_Czarnuchowice_Przemsza_Gorzow_nowy_10);
+        var img_125_Nowy_Bierun_Solec_Kopciowice_nowy_11 = 'data/125_Nowy_Bierun_Solec_Kopciowice_nowy_11.png';
+        var img_bounds_125_Nowy_Bierun_Solec_Kopciowice_nowy_11 = [[50.06759160949464,19.177139154597604],[50.08769468418979,19.20374294170991]];
+        var layer_125_Nowy_Bierun_Solec_Kopciowice_nowy_11 = new L.imageOverlay(img_125_Nowy_Bierun_Solec_Kopciowice_nowy_11, img_bounds_125_Nowy_Bierun_Solec_Kopciowice_nowy_11);
+        bounds_group.addLayer(layer_125_Nowy_Bierun_Solec_Kopciowice_nowy_11);
+        map.addLayer(layer_125_Nowy_Bierun_Solec_Kopciowice_nowy_11);
+        var img_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12 = 'data/122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12.png';
+        var img_bounds_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12 = [[50.070123681857595,19.156161174153613],[50.09045425431696,19.18309759456476]];
+        var layer_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12 = new L.imageOverlay(img_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12, img_bounds_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12);
+        bounds_group.addLayer(layer_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12);
+        map.addLayer(layer_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12);
+        var img_119_Sciernie_Zarzyna_nowy_13 = 'data/119_Sciernie_Zarzyna_nowy_13.png';
+        var img_bounds_119_Sciernie_Zarzyna_nowy_13 = [[50.072233377395534,19.13447965293116],[50.092553911961694,19.161397617421045]];
+        var layer_119_Sciernie_Zarzyna_nowy_13 = new L.imageOverlay(img_119_Sciernie_Zarzyna_nowy_13, img_bounds_119_Sciernie_Zarzyna_nowy_13);
+        bounds_group.addLayer(layer_119_Sciernie_Zarzyna_nowy_13);
+        map.addLayer(layer_119_Sciernie_Zarzyna_nowy_13);
+        var img_116_Bierun_Baraniec_Sciernie_nowy_14 = 'data/116_Bierun_Baraniec_Sciernie_nowy_14.png';
+        var img_bounds_116_Bierun_Baraniec_Sciernie_nowy_14 = [[50.07194254612335,19.112815344819012],[50.09217868785541,19.139373730180623]];
+        var layer_116_Bierun_Baraniec_Sciernie_nowy_14 = new L.imageOverlay(img_116_Bierun_Baraniec_Sciernie_nowy_14, img_bounds_116_Bierun_Baraniec_Sciernie_nowy_14);
+        bounds_group.addLayer(layer_116_Bierun_Baraniec_Sciernie_nowy_14);
+        map.addLayer(layer_116_Bierun_Baraniec_Sciernie_nowy_14);
+        var img_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15 = 'data/113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15.png';
+        var img_bounds_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15 = [[50.07349421492628,19.09011587492665],[50.093913277676045,19.116955715757573]];
+        var layer_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15 = new L.imageOverlay(img_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15, img_bounds_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15);
+        bounds_group.addLayer(layer_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15);
+        map.addLayer(layer_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15);
+        var img_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16 = 'data/112_Bierun_Redzina_Rynek_Chomeczki_nowy_16.png';
+        var img_bounds_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16 = [[50.073039873914276,19.084445335102377],[50.0933310019762,19.11124910341563]];
+        var layer_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16 = new L.imageOverlay(img_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16, img_bounds_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16);
+        bounds_group.addLayer(layer_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16);
+        map.addLayer(layer_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16);
+        var img_108_Bierun_Lysina_nowy_17 = 'data/108_Bierun_Lysina_nowy_17.png';
+        var img_bounds_108_Bierun_Lysina_nowy_17 = [[50.07427982628639,19.058560659134237],[50.09441170502499,19.085424232068462]];
+        var layer_108_Bierun_Lysina_nowy_17 = new L.imageOverlay(img_108_Bierun_Lysina_nowy_17, img_bounds_108_Bierun_Lysina_nowy_17);
+        bounds_group.addLayer(layer_108_Bierun_Lysina_nowy_17);
+        map.addLayer(layer_108_Bierun_Lysina_nowy_17);
+        var img_107_Swierczyniec_Gostyn_Mleczna_nowy_18 = 'data/107_Swierczyniec_Gostyn_Mleczna_nowy_18.gif';
+        var img_bounds_107_Swierczyniec_Gostyn_Mleczna_nowy_18 = [[50.072997925641275,19.05216345148418],[50.09317767239373,19.07875322521372]];
+        var layer_107_Swierczyniec_Gostyn_Mleczna_nowy_18 = new L.imageOverlay(img_107_Swierczyniec_Gostyn_Mleczna_nowy_18, img_bounds_107_Swierczyniec_Gostyn_Mleczna_nowy_18);
+        bounds_group.addLayer(layer_107_Swierczyniec_Gostyn_Mleczna_nowy_18);
+        map.addLayer(layer_107_Swierczyniec_Gostyn_Mleczna_nowy_18);
+        
+
+
+        function style_gminy_19_0() {
+            return {
+                pane: 'pane_gminy_19',
+                opacity: 1,
+                color: 'rgba(243,255,1,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(141,90,153,0.0)',
+            }
+        }
+        map.createPane('pane_gminy_19');
+        map.getPane('pane_gminy_19').style.zIndex = 419;
+        map.getPane('pane_gminy_19').style['mix-blend-mode'] = 'normal';
+        var layer_gminy_19 = new L.geoJson(json_gminy_19, {
+            attribution: '',
+            pane: 'pane_gminy_19',
+            style: style_gminy_19_0,
+        });
+        bounds_group.addLayer(layer_gminy_19);
+        map.addLayer(layer_gminy_19);
+	function updateOpacity(value) {
+layer_331_Babice_Czarnuchowice_nowy_1.setOpacity(value);
+layer_327_Nowy_Bierun_Chropan_Babice_nowy_2.setOpacity(value);
+layer_324_Bijasowice_nowy_3.setOpacity(value);
+layer_321_Kopan_nowy_4.setOpacity(value);
+layer_318_Bieru_Jajosty_nowy_5.setOpacity(value);
+layer_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6.setOpacity(value);
+layer_312_Bojszowy_zach_Erg_nowy_7.setOpacity(value);
+layer_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8.setOpacity(value);
+layer_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9.setOpacity(value);
+layer_129_Czarnuchowice_Przemsza_Gorzow_nowy_10.setOpacity(value);
+layer_125_Nowy_Bierun_Solec_Kopciowice_nowy_11.setOpacity(value);
+layer_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12.setOpacity(value);
+layer_119_Sciernie_Zarzyna_nowy_13.setOpacity(value);
+layer_116_Bierun_Baraniec_Sciernie_nowy_14.setOpacity(value);
+layer_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15.setOpacity(value);
+layer_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16.setOpacity(value);
+layer_108_Bierun_Lysina_nowy_17.setOpacity(value);
+layer_107_Swierczyniec_Gostyn_Mleczna_nowy_18.setOpacity(value);
+		}
+
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/gminy_19.png" /> granica gm. Bieruń': layer_gminy_19,"Swierczyniec_Gostyn_Mleczna": layer_107_Swierczyniec_Gostyn_Mleczna_nowy_18,"Bierun_Lysina": layer_108_Bierun_Lysina_nowy_17,"Bierun_Redzina_Rynek_Chomeczki": layer_112_Bierun_Redzina_Rynek_Chomeczki_nowy_16,"Bierun_Rynek_Chomeczki_Baraniec": layer_113_Bierun_Rynek_Chomeczki_Baraniec_nowy_15,"Bierun_Baraniec_Sciernie": layer_116_Bierun_Baraniec_Sciernie_nowy_14,"Sciernie_Zarzyna": layer_119_Sciernie_Zarzyna_nowy_13,"Sciernie_Bijasowice_Bierun_N": layer_122_Sciernie_Bijasowice_Nowy_Bierun_nowy_12,"Nowy_Bierun_Solec_Kopciowice": layer_125_Nowy_Bierun_Solec_Kopciowice_nowy_11,"Czarnuchowice_Przemsza_Gorzow": layer_129_Czarnuchowice_Przemsza_Gorzow_nowy_10,"Czarnuchowice_Gorzow": layer_131_Czarnuchowice_Przemsza_Wisla_Gorzow_nowy_9,"Swierczyniec_Poloczek_Piekielec_Erg": layer_310_Swierczyniec_Poloczek_Piekielec_Erg_nowy_8,"Bojszowy_zach_Erg": layer_312_Bojszowy_zach_Erg_nowy_7,"Bieruń_Kolonia_Bojszowy_Jajosty": layer_316_Bieru_Kolonia_Bojszowy_Jajosty_nowy_6,"Bieruń_Jajosty": layer_318_Bieru_Jajosty_nowy_5,"Kopan": layer_321_Kopan_nowy_4,"Bijasowice": layer_324_Bijasowice_nowy_3,"Nowy_Bierun_Chropan_Babice": layer_327_Nowy_Bierun_Chropan_Babice_nowy_2,"Babice_Czarnuchowice": layer_331_Babice_Czarnuchowice_nowy_1,}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
