@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+       <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+      	    background-color: grey
+        }
+	.dupa {
+      	    background-color: grey;
+            height: 88%;
+            width: 100%; 
+	    position: absolute;  
+	    font-size: 18px;
+	    font-family: Calibri;
+        }
+        </style>
+        <title></title>
+    </head>
+<body>
+       	<div class="dupa">
+		<span style="display:inline-block; vertical-align: top; font-family: Calibri; font-weight: bold; font-size: 26px"><font color="white">&nbsp;&nbsp;Międzyrzecze na niemieckich mapach topograficznych z 1827 i 1936 r.</font></span><span style="display:inline-block; float: right; vertical-align: top; font-family: Calibri; font-size: 10px;"><font color="lightgray">[oprac. Paweł Swoboda]&nbsp;</font></span><br/>
+		<span style="display:inline-block; float: left; padding: 10px; vertical-align: middle; font-family: Calibri;"><font color="white">&nbsp;Ustaw przezroczystość zdjęć:&nbsp;&nbsp;0%&nbsp; <input id="slide" style="vertical-align: middle;" type="range" min="0" max="1" step="0.05" value="1" onchange="updateOpacity(this.value)">&nbsp;100%</span>
+	<div id="map">
+        </div></div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/gminy_19.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[50.06,19.05280844664674],[50.10514046241792,19.213905338066784]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 28,
+	    subdomains:['mt0','mt1','mt2','mt3']
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        var img_Messtischblatt_Altberun_1936_1 = 'data/Messtischblatt_Altberun_1936_1.png';
+        var img_bounds_Messtischblatt_Altberun_1936_1 = [[49.99893378526094,18.997565314144804],[50.09893085289318,19.16397015023108]];
+        var layer_Messtischblatt_Altberun_1936_1 = new L.imageOverlay(img_Messtischblatt_Altberun_1936_1, img_bounds_Messtischblatt_Altberun_1936_1);
+        bounds_group.addLayer(layer_Messtischblatt_Altberun_1936_1);
+        var img_Urmesstischblatt_Berun_1827_2 = 'data/Urmesstischblatt_Berun_1827_2.png';
+        var img_bounds_Urmesstischblatt_Berun_1827_2 = [[49.998973234340106,18.997569733813577],[50.09890548066355,19.16410142319514]];
+        var layer_Urmesstischblatt_Berun_1827_2 = new L.imageOverlay(img_Urmesstischblatt_Berun_1827_2, img_bounds_Urmesstischblatt_Berun_1827_2);
+        bounds_group.addLayer(layer_Urmesstischblatt_Berun_1827_2);
+        map.addLayer(layer_Urmesstischblatt_Berun_1827_2);
+	
+function updateOpacity(value) {
+layer_Messtischblatt_Altberun_1936_1.setOpacity(value);
+layer_Urmesstischblatt_Berun_1827_2.setOpacity(value);
+		}
+
+        var baseMaps = {};
+        L.control.layers(baseMaps,{"Urmesstischblatt_Berun_1827": layer_Urmesstischblatt_Berun_1827_2,"Messtischblatt_Altberun_1936": layer_Messtischblatt_Altberun_1936_1,},{collapsed:false}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
