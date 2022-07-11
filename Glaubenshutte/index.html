@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+       <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+      	    background-color: grey
+        }
+	.dupa {
+      	    background-color: grey;
+            height: 88%;
+            width: 100%; 
+	    position: absolute;  
+	    font-size: 18px;
+	    font-family: Calibri;
+        }
+        </style>
+        <title></title>
+    </head>
+<body>
+       	<div class="dupa">
+		<span style="display:inline-block; vertical-align: top; font-family: Calibri; font-weight: bold; font-size: 26px"><font color="white">&nbsp;&nbsp;Glaubenshütte</font></span><span style="display:inline-block; float: right; vertical-align: top; font-family: Calibri; font-size: 10px;"><font color="lightgray">[oprac. Paweł Swoboda]&nbsp;</font></span><br/>
+		<span style="display:inline-block; float: left; padding: 10px; vertical-align: middle; font-family: Calibri;"><font color="white">&nbsp;Ustaw pokrycie warstwy Katowice_1942:&nbsp;&nbsp;0%&nbsp; <input id="slide" style="vertical-align: middle;" type="range" min="0" max="1" step="0.1" value="1" onchange="updateOpacity(this.value)">&nbsp;100%</span>
+	<div id="map">
+        </div></div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Glaubenshtte_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[50.06,19.05280844664674],[50.10514046241792,19.213905338066784]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {
+		maxZoom: 28,
+        });
+        basemap0.addTo(map);
+        var basemap1 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,m&x={x}&y={y}&z={z}', {
+            maxZoom: 28,
+	    attribution: 'ThanksToGoogleMap',
+	    subdomains:['mt0','mt1','mt2','mt3']
+        });
+
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        var img_5580_Kattowitz_1942_1 = 'data/5580_Kattowitz_1942_1.jpg';
+        var img_bounds_5580_Kattowitz_1942_1 = [[50.189074569916855,18.991235885420913],[50.3113599529247,19.189574685236277]];
+        var layer_5580_Kattowitz_1942_1 = new L.imageOverlay(img_5580_Kattowitz_1942_1, img_bounds_5580_Kattowitz_1942_1);
+        bounds_group.addLayer(layer_5580_Kattowitz_1942_1);
+	map.addLayer(layer_5580_Kattowitz_1942_1);
+        function style_Glaubenshtte_2_0() {
+            return {
+                pane: 'pane_Glaubenshtte_2',
+                opacity: 1,
+                color: 'rgba(227,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(243,8,15,0.3215686274509804)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Glaubenshtte_2');
+        map.getPane('pane_Glaubenshtte_2').style.zIndex = 402;
+        map.getPane('pane_Glaubenshtte_2').style['mix-blend-mode'] = 'normal';
+        var layer_Glaubenshtte_2 = new L.geoJson(json_Glaubenshtte_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Glaubenshtte_2',
+            layerName: 'layer_Glaubenshtte_2',
+            pane: 'pane_Glaubenshtte_2',
+            style: style_Glaubenshtte_2_0,
+        });
+        bounds_group.addLayer(layer_Glaubenshtte_2);
+        map.addLayer(layer_Glaubenshtte_2);	
+	
+function updateOpacity(value) {
+		layer_5580_Kattowitz_1942_1.setOpacity(value);
+
+		}
+
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Glaubenshtte_2.png" /> Glaubenshütte': layer_Glaubenshtte_2,"Katowice_1942": layer_5580_Kattowitz_1942_1, "GoogleMaps": basemap1, "OpenStreetMap": basemap0, },{collapsed:false}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
