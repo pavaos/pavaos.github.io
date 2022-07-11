@@ -50,15 +50,17 @@
         var hash = new L.Hash(map);
         map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
         var bounds_group = new L.featureGroup([]);
-        var basemap0 = L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {
+        
+	var basemap0 = L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {
 		maxZoom: 28,
         });
         basemap0.addTo(map);
-        var basemap1 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,m&x={x}&y={y}&z={z}', {
+	var basemap1 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,m&x={x}&y={y}&z={z}', {
             maxZoom: 28,
 	    attribution: 'ThanksToGoogleMap',
 	    subdomains:['mt0','mt1','mt2','mt3']
         });
+
 
         function setBounds() {
             if (bounds_group.getLayers().length) {
@@ -105,7 +107,7 @@ function updateOpacity(value) {
 		}
 
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/Glaubenshtte_2.png" /> Glaubenshütte': layer_Glaubenshtte_2,"Katowice_1942": layer_5580_Kattowitz_1942_1, "GoogleMaps": basemap1, "OpenStreetMap": basemap0, },{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/Glaubenshtte_2.png" /> Glaubenshütte': layer_Glaubenshtte_2,"Katowice_1942": layer_5580_Kattowitz_1942_1, "GoogleMaps hybrid": basemap1, },{collapsed:false}).addTo(map);
         setBounds();
         L.ImageOverlay.include({
             getBounds: function () {
