@@ -68,12 +68,12 @@
             highlightLayer.openPopup();
         }
         var map = L.map('map', {
-            zoomControl:true, maxZoom:28, minZoom:1
+            zoomControl:true, maxZoom:20, minZoom:1
         }).fitBounds([[50.00701852023563,18.975973114223873],[50.18157611861609,19.307910745626707]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
-        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        L.control.locate({locateOptions: {maxZoom: 20}}).addTo(map);
         var measureControl = new L.Control.Measure({
             position: 'topleft',
             primaryLengthUnit: 'meters',
@@ -92,7 +92,7 @@
         map.createPane('pane_googlemapssat_0');
         map.getPane('pane_googlemapssat_0').style.zIndex = 400;
         var layer_googlemapssat_0 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-            maxZoom: 28,
+            maxZoom: 20,
 	    subdomains:['mt0','mt1','mt2','mt3']
         });	
         layer_googlemapssat_0;
@@ -104,7 +104,7 @@
             opacity: 1.0,
             attribution: '',
             minZoom: 1,
-            maxZoom: 28,
+            maxZoom: 20,
             minNativeZoom: 0,
             maxNativeZoom: 19
         });
@@ -301,7 +301,7 @@
             initial: false,
             hideMarkerOnCollapse: true,
             propertyName: 'idDzialki',
-			zoom: 15}));
+			zoom: 16}));
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
         resetLabels([layer_SBL_gminy_3]);
