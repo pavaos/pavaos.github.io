@@ -91,15 +91,10 @@
         }
         map.createPane('pane_googlemapssat_0');
         map.getPane('pane_googlemapssat_0').style.zIndex = 400;
-        var layer_googlemapssat_0 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
-            pane: 'pane_googlemapssat_0',
-            opacity: 1.0,
-            attribution: '',
-            minZoom: 1,
+        var layer_googlemapssat_0 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
             maxZoom: 28,
-            minNativeZoom: 0,
-            maxNativeZoom: 19
-        });
+	    subdomains:['mt0','mt1','mt2','mt3']
+        });	
         layer_googlemapssat_0;
         map.addLayer(layer_googlemapssat_0);
         map.createPane('pane_OpenStreetMap_1');
