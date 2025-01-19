@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+      	    background-color: grey
+        }
+	.dupa {
+      	    background-color: grey;
+            height: 95%;
+            width: 100%; 
+	    position: absolute;  
+	    font-size: 18px;
+	    font-family: Calibri;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+       	<div class="dupa">
+		<span style="display:inline-block; vertical-align: top; font-family: Calibri; font-weight: bold; font-size: 14px"><font color="white">&nbsp;&nbsp;Narzędzia: <i class="fa fa-map-marker" aria-hidden="true"></i> - przybliż do swojej lokalizacji | <i class="fas fa-ruler" aria-hidden="true"></i> - zmierz odległość i powierzchnię | <i class="fa fa-search" aria-hidden="true"></i> - wyszukaj adres | <i class="fa fa-binoculars" aria-hidden="false"></i> - wyszukaj nr działki</font></span><span style="display:inline-block; float: right; vertical-align: top; font-family: Calibri; font-size: 10px;"><font color="lightgray">[Materiał ma charakter wyłącznie poglądowy. Oprac. Paweł Swoboda]&nbsp;</font></span><br/>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/Dziaki_2.js"></script>
+        <script src="data/SBL_gminy_3.js"></script>
+        <script src="data/S1_4.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[50.00701852023563,18.975973114223873],[50.18157611861609,19.307910745626707]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_googlemapssat_0');
+        map.getPane('pane_googlemapssat_0').style.zIndex = 400;
+        var layer_googlemapssat_0 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_googlemapssat_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_googlemapssat_0;
+        map.addLayer(layer_googlemapssat_0);
+        map.createPane('pane_OpenStreetMap_1');
+        map.getPane('pane_OpenStreetMap_1').style.zIndex = 401;
+        var layer_OpenStreetMap_1 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenStreetMap_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_1;
+        function pop_Dziaki_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td>idDzialki:</td></tr>\
+						<tr>\
+                        <td>' + (feature.properties['idDzialki'] !== null ? autolinker.link(feature.properties['idDzialki'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Dziaki_2_0() {
+            return {
+                pane: 'pane_Dziaki_2',
+                opacity: 1,
+                color: 'rgba(1,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(212,255,19,0.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Dziaki_2');
+        map.getPane('pane_Dziaki_2').style.zIndex = 402;
+        map.getPane('pane_Dziaki_2').style['mix-blend-mode'] = 'normal';
+        var layer_Dziaki_2 = new L.geoJson(json_Dziaki_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Dziaki_2',
+            layerName: 'layer_Dziaki_2',
+            pane: 'pane_Dziaki_2',
+            onEachFeature: pop_Dziaki_2,
+            style: style_Dziaki_2_0,
+        });
+        bounds_group.addLayer(layer_Dziaki_2);
+        map.addLayer(layer_Dziaki_2);
+        function pop_SBL_gminy_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['JPT_NAZWA_'] !== null ? autolinker.link(feature.properties['JPT_NAZWA_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_SBL_gminy_3_0() {
+            return {
+                pane: 'pane_SBL_gminy_3',
+                opacity: 1,
+                color: 'rgba(255,251,1,1.0)',
+                dashArray: '10,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,207,80,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_SBL_gminy_3');
+        map.getPane('pane_SBL_gminy_3').style.zIndex = 403;
+        map.getPane('pane_SBL_gminy_3').style['mix-blend-mode'] = 'normal';
+        var layer_SBL_gminy_3 = new L.geoJson(json_SBL_gminy_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_SBL_gminy_3',
+            layerName: 'layer_SBL_gminy_3',
+            pane: 'pane_SBL_gminy_3',
+            onEachFeature: pop_SBL_gminy_3,
+            style: style_SBL_gminy_3_0,
+        });
+        bounds_group.addLayer(layer_SBL_gminy_3);
+        map.addLayer(layer_SBL_gminy_3);
+        function pop_S1_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_S1_4_0() {
+            return {
+                pane: 'pane_S1_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,0,42,1.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_S1_4');
+        map.getPane('pane_S1_4').style.zIndex = 404;
+        map.getPane('pane_S1_4').style['mix-blend-mode'] = 'normal';
+        var layer_S1_4 = new L.geoJson(json_S1_4, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_S1_4',
+            layerName: 'layer_S1_4',
+            pane: 'pane_S1_4',
+            onEachFeature: pop_S1_4,
+            style: style_S1_4_0,
+        });
+        bounds_group.addLayer(layer_S1_4);
+        map.addLayer(layer_S1_4);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/S1_4.png" /> S1': layer_S1_4,'<img src="legend/SBL_gminy_3.png" /> SBL_gminy': layer_SBL_gminy_3,'<img src="legend/Dziaki_2.png" /> Działki': layer_Dziaki_2,"OpenStreetMap": layer_OpenStreetMap_1,"google maps sat": layer_googlemapssat_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_SBL_gminy_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['JPT_NAZWA_'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'Liberation Sans\', sans-serif;">' + layer.feature.properties['JPT_NAZWA_']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_SBL_gminy_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: layer_Dziaki_2,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'idDzialki',
+			zoom: 18}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        resetLabels([layer_SBL_gminy_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_SBL_gminy_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_SBL_gminy_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_SBL_gminy_3]);
+        });
+        </script>
+    </body>
+</html>
